@@ -12,7 +12,7 @@ export default class UserMongoDB {
     }
   }
 
-  async register(user) {
+ async register(user) {
     try {
       const { email, password } = user;
       const hashedPassword = await bcrypt.hash(password, 10); // Genera un hash de la contraseña
@@ -28,7 +28,17 @@ export default class UserMongoDB {
         return null; // El usuario ya existe
       }
   
-      const createdUser = await UserModel.create(newUser);
+      let createdUser;
+  
+      // Verifica si las credenciales son para el usuario administrador
+      if (email === "adminCoder@coder.com" && password === "adminCod3r123") {
+        createdUser = await UserModel.create({
+          ...newUser,
+          role: "admin",
+        });
+      } else {
+        createdUser = await UserModel.create(newUser);
+      }
       return createdUser;
     } catch (error) {
       console.log(error);
