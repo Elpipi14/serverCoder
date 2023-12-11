@@ -72,7 +72,8 @@ router.get('/profile', validateLogin, async (req, res) => {
             age: user.age,
             gender: user.gender,
         };
-        console.log(isAdmin, "es o no es");
+        console.log(userToRender);
+        console.log("admin = ", isAdmin);
         res.render('partials/profile', { user: userToRender, isAdmin });
     } catch (error) {
         console.error('Error al obtener el perfil del usuario:', error);
@@ -90,4 +91,6 @@ router.get('/register-error', async (req, res) => {
 });
 
 export default router;
+
+
 
